@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FC 27 – Hemmaturnering</title>
+<style>
+:root{--bg:#0f172a;--card:#fff;--ink:#172033;--blue:#2563eb;--green:#16a34a;--muted:#64748b;--line:#dbe2ea}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#eef2f7;color:var(--ink)}
+header{background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#fff;padding:22px 16px;position:sticky;top:0;z-index:5}
+h1{margin:0;font-size:26px}h2{margin:0 0 14px}.wrap{max-width:1200px;margin:auto;padding:16px}
+.tabs{display:flex;gap:8px;overflow:auto;margin:12px 0}.tabs button{border:0;padding:11px 15px;border-radius:10px;background:#dbe4f3;font-weight:700;white-space:nowrap}.tabs button.active{background:var(--blue);color:#fff}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 3px 14px #0000000b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+input[type=text],input[type=number]{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;font-size:15px}
+table{width:100%;border-collapse:collapse}th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:center}th{font-size:12px;color:var(--muted)}td:first-child,th:first-child{text-align:left}
+.name{font-weight:700}.rank{font-weight:800;width:32px}.score{width:62px;text-align:center}.match{display:grid;grid-template-columns:1fr 62px 62px 1fr;gap:8px;align-items:center;margin:8px 0}.teamR{text-align:right}.teamL{text-align:left}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#e2e8f0;font-size:12px;font-weight:700}
+.notice{padding:11px 12px;background:#eff6ff;border-left:4px solid var(--blue);border-radius:8px;color:#1e3a8a}
+button.action{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:10px 13px;font-weight:700;cursor:pointer}
+.small{color:var(--muted);font-size:13px}.winner{font-weight:800;color:var(--green)}
+.bracket{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;overflow:auto}.round{min-width:220px}.round h3{text-align:center}.game{border:1px solid var(--line);border-radius:10px;padding:10px;margin:18px 0;background:#f8fafc}.game div{padding:5px 0}.champ{font-size:24px;text-align:center;background:#fef3c7;padding:18px;border-radius:12px}
+@media(max-width:700px){.bracket{grid-template-columns:repeat(4,220px)}.match{grid-template-columns:1fr 50px 50px 1fr;font-size:14px}.wrap{padding:10px}}
+
+/* FC27 visual redesign */
+:root{--bg:#04111e;--card:#092139;--ink:#f4f7fb;--blue:#0b66ad;--green:#087b55;--muted:#9bb0c3;--line:#1e4d70;--gold:#f2c94c}
+html,body{background:radial-gradient(circle at 50% -10%,#16466e 0,#071a2b 34%,#030a12 100%);color:var(--ink)}
+.heroHead{background:linear-gradient(180deg,rgba(3,12,22,.2),rgba(3,12,22,.95)),radial-gradient(ellipse at 50% 110%,#176438 0 16%,#0a2b1c 31%,transparent 52%),linear-gradient(180deg,#0d3a5e,#061321);padding:24px 16px 18px;position:sticky;top:0;z-index:5;border-bottom:1px solid #275578;overflow:hidden}
+.heroHead h1{font-size:clamp(42px,8vw,74px);line-height:.9;text-align:center;letter-spacing:-3px;font-weight:1000;text-shadow:0 5px 22px #000;margin:0}.heroHead .wrap{text-align:center}.eyebrow{color:var(--gold);font-weight:900;letter-spacing:3px}.subhead{font-weight:800;color:#c9d8e4;margin-top:7px}.stadiumGlow{height:30px;max-width:800px;margin:10px auto -18px;background:radial-gradient(ellipse,#65d58c44,transparent 70%);filter:blur(8px)}
+.tabs{justify-content:center}.tabs button{background:#0a2034;color:#cbd8e3;border:1px solid #204763}.tabs button.active{background:linear-gradient(#f5d36d,#d9a92f);color:#07131e;border-color:#e4c04f}
+.card{background:linear-gradient(145deg,#0c2942,#061726);border:1px solid #1c4d72;box-shadow:0 10px 35px #0007;color:#f4f7fb}.notice{background:#0a253b;border-left-color:var(--gold);color:#c8d8e4}.small{color:#9bb0c3}.grid{gap:12px}.grid>.card{background:#071a2a;border:1px solid #1b425f}.team-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:15px 0}.team-tile{background:#061a2b;border:1px solid #1a4261;border-radius:11px;min-height:105px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:12px}.tile-logo{width:52px;height:52px;object-fit:contain;margin-bottom:6px;filter:drop-shadow(0 3px 4px #000)}.mini-logo{width:26px;height:26px;object-fit:contain;vertical-align:middle;filter:drop-shadow(0 2px 3px #000)}.club{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}.match{background:#071a2a;border:1px solid #183c58;border-radius:9px;padding:6px}.match .teamR,.match .teamL{display:flex;align-items:center}.match .teamR{justify-content:flex-end}.match .teamL{justify-content:flex-start}.score{background:#f7f9fc;color:#111;border:1px solid #aac0d0;font-weight:900}.bracket{background:transparent}.game{background:#071a2a;border:1px solid #244a66;color:#f4f7fb}.champ{background:linear-gradient(145deg,#3a2c0c,#15110a);border:1px solid #80652b;color:#fff}.winner{color:#79e4ad}.koTeam{display:inline-flex;align-items:center;gap:6px;vertical-align:middle}table th{color:#91a9bc}table td{border-bottom-color:#173a55}input[type=text],input[type=number]{background:#f8fafc;color:#111;border-color:#3d617a}.action{background:#e2b83c!important;color:#081522!important}
+@media(max-width:900px){.team-strip{grid-template-columns:repeat(5,120px);overflow-x:auto;justify-content:start}.heroHead{position:relative}.tabs{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<header class="heroHead"><div class="wrap"><div class="eyebrow">HEMMATURNERING</div><h1>FC 27</h1><div class="subhead">⚽ 10 LAG • 2 GRUPPER • SLUTSPEL</div><div class="stadiumGlow"></div></div></header>
+<div class="wrap">
+<div class="tabs">
+<button class="active" onclick="show('setup',this)">👥 Lagen</button>
+<button onclick="show('A',this)">📺 Grupp A</button>
+<button onclick="show('B',this)">📺 Grupp B</button>
+<button onclick="show('KO',this)">🏆 Slutspel</button>
+</div>
+
+<section id="setup" class="page">
+<div class="card"><h2>👥 Spelare & lag</h2><div class="notice">Skriv varje spelares namn. Lagen är förvalda enligt turneringens seedning.</div><div id="teamStrip" class="team-strip"></div><div id="players" class="grid" style="margin-top:14px"></div><button class="action" onclick="save()">💾 Spara</button></div>
+<div class="card"><h2>📋 Turneringens upplägg</h2><p>5 lag per grupp. Alla möter alla en gång. Matchordningen är gjord så att inget lag spelar mer än <b>två matcher i rad</b>.</p><p>1–3 i varje grupp går direkt till kvartsfinal. 4A–5B och 4B–5A spelar play-in.</p></div>
+</section>
+
+<section id="A" class="page" style="display:none"><div class="card"><h2>📺 Grupp A</h2><div id="tableA"></div><h3>Matcher</h3><div id="matchesA"></div></div></section>
+<section id="B" class="page" style="display:none"><div class="card"><h2>📺 Grupp B</h2><div id="tableB"></div><h3>Matcher</h3><div id="matchesB"></div></div></section>
+<section id="KO" class="page" style="display:none"><div id="knockout"></div></section>
+</div>
+
+<script>
+const groups={
+A:["Real Madrid","Arsenal","Manchester City","Liverpool","Manchester United"],
+B:["PSG","Barcelona","Bayern München","West Brom","Chelsea"]
+};
+const LOGOS={
+"Real Madrid":"https://images.fotmob.com/image_resources/logo/teamlogo/8633.png",
+"Arsenal":"https://images.fotmob.com/image_resources/logo/teamlogo/9825.png",
+"Manchester City":"https://images.fotmob.com/image_resources/logo/teamlogo/8456.png",
+"Liverpool":"https://images.fotmob.com/image_resources/logo/teamlogo/8650.png",
+"Manchester United":"https://images.fotmob.com/image_resources/logo/teamlogo/10260.png",
+"PSG":"https://images.fotmob.com/image_resources/logo/teamlogo/9847.png",
+"Barcelona":"https://images.fotmob.com/image_resources/logo/teamlogo/8634.png",
+"Bayern München":"https://images.fotmob.com/image_resources/logo/teamlogo/9823.png",
+"West Brom":"https://images.fotmob.com/image_resources/logo/teamlogo/8659.png",
+"Chelsea":"https://images.fotmob.com/image_resources/logo/teamlogo/8455.png"
+};
+function crest(t,cls="mini-logo"){return `<img class="${cls}" src="${LOGOS[t]||''}" alt="" onerror="this.style.display='none'">`}
+function club(t){return `<span class="club"><span>${crest(t)}</span><span>${t}</span></span>`}
+const schedules={
+A:[["Real Madrid","Arsenal"],["Manchester City","Liverpool"],["Manchester United","Real Madrid"],["Arsenal","Manchester City"],["Liverpool","Manchester United"],["Real Madrid","Manchester City"],["Arsenal","Liverpool"],["Manchester United","Manchester City"],["Real Madrid","Liverpool"],["Arsenal","Manchester United"]],
+B:[["PSG","Barcelona"],["Bayern München","West Brom"],["Chelsea","PSG"],["Barcelona","Bayern München"],["West Brom","Chelsea"],["PSG","Bayern München"],["Barcelona","West Brom"],["Chelsea","Bayern München"],["PSG","West Brom"],["Barcelona","Chelsea"]]
+};
+let state=JSON.parse(localStorage.getItem("fc27westbrom")||"null")||{players:{},scores:{},ko:{}};
+
+function save(){localStorage.setItem("fc27westbrom",JSON.stringify(state));render();alert("Sparat på den här enheten!");}
+function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+function show(id,btn){document.querySelectorAll(".page").forEach(x=>x.style.display=x.id===id?"block":"none");document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");render();}
+function player(team){return state.players[team]||""}
+function renderTeamStrip(){
+ const all=[...groups.A,...groups.B];
+ document.getElementById("teamStrip").innerHTML=all.map(t=>`<div class="team-tile">${crest(t,"tile-logo")}<b>${t}</b></div>`).join("");
+}
+function renderPlayers(){
+renderTeamStrip();
+let el=document.getElementById("players");el.innerHTML="";
+for(let g of ["A","B"]){let d=document.createElement("div");d.className="card";d.style.margin=0;d.innerHTML="<h3>Grupp "+g+"</h3>";
+groups[g].forEach(t=>{d.innerHTML+=`<label style="display:block;margin:10px 0"><b>${t}</b><input type="text" value="${esc(player(t))}" placeholder="Spelarens namn" oninput="state.players['${t}']=this.value"></label>`});el.appendChild(d)}
+}
+function scoreKey(g,i){return g+"_"+i}
+function standings(g){
+let arr=groups[g].map(t=>({t,m:0,w:0,d:0,l:0,gm:0,im:0,p:0}));
+schedules[g].forEach((p,i)=>{let s=state.scores[scoreKey(g,i)];if(!s)return;let a=+s[0],b=+s[1];if(Number.isNaN(a)||Number.isNaN(b))return;
+let x=arr.find(z=>z.t===p[0]),y=arr.find(z=>z.t===p[1]);x.m++;y.m++;x.gm+=a;x.im+=b;y.gm+=b;y.im+=a;
+if(a>b){x.w++;x.p+=3;y.l++}else if(a<b){y.w++;y.p+=3;x.l++}else{x.d++;y.d++;x.p++;y.p++}});
+arr.forEach(x=>x.ms=x.gm-x.im);
+arr.sort((a,b)=>b.p-a.p||b.ms-a.ms||b.gm-a.gm);
+return arr;
+}
+function renderGroup(g){
+let st=standings(g), t=document.getElementById("table"+g);
+t.innerHTML=`<table><tr><th>#</th><th>Lag / spelare</th><th>M</th><th>V</th><th>O</th><th>F</th><th>MS</th><th>P</th></tr>`+
+st.map((x,i)=>`<tr><td class="rank">${i+1}</td><td class="name">${club(x.t)}<br><span class="small">${esc(player(x.t))||"—"}</span></td><td>${x.m}</td><td>${x.w}</td><td>${x.d}</td><td>${x.l}</td><td>${x.ms}</td><td><b>${x.p}</b></td></tr>`).join("")+"</table>";
+let m=document.getElementById("matches"+g);m.innerHTML="";
+schedules[g].forEach((p,i)=>{let s=state.scores[scoreKey(g,i)]||["",""];m.innerHTML+=`<div class="match"><div class="teamR">${club(p[0])}</div><input class="score" type="number" min="0" value="${s[0]}" onchange="setScore('${g}',${i},0,this.value)"><input class="score" type="number" min="0" value="${s[1]}" onchange="setScore('${g}',${i},1,this.value)"><div class="teamL">${club(p[1])}</div></div>`});
+}
+function setScore(g,i,k,v){state.scores[scoreKey(g,i)]=state.scores[scoreKey(g,i)]||["",""];state.scores[scoreKey(g,i)][k]=v;localStorage.setItem("fc27westbrom",JSON.stringify(state));render();}
+function seed(g,n){return standings(g)[n-1]?.t||"—"}
+function koGame(id,a,b){let s=state.ko[id]||["",""];return `<div class="game"><div><span class="koTeam">${club(a)}</span> <input class="score" type="number" min="0" value="${s[0]}" onchange="setKO('${id}',0,this.value)"> <span class="koTeam">${club(b)}</span> <input class="score" type="number" min="0" value="${s[1]}" onchange="setKO('${id}',1,this.value)"></div><div class="small">Vinnare: <span class="winner">${kowinner(id,a,b)}</span></div></div>`}
+function setKO(id,k,v){state.ko[id]=state.ko[id]||["",""];state.ko[id][k]=v;localStorage.setItem("fc27westbrom",JSON.stringify(state));render();}
+function kowinner(id,a,b){let s=state.ko[id];if(!s||s[0]===""||s[1]===""||+s[0]===+s[1])return "—";return +s[0]>+s[1]?a:b}
+function renderKO(){
+let A=standings("A"),B=standings("B"), el=document.getElementById("knockout");
+let a=n=>A[n-1]?.t||"—",b=n=>B[n-1]?.t||"—";
+let pi1=kowinner("pi1",a(4),b(5)),pi2=kowinner("pi2",b(4),a(5));
+let q1=kowinner("q1",a(1),pi2),q2=kowinner("q2",b(2),a(3)),q3=kowinner("q3",b(1),pi1),q4=kowinner("q4",a(2),b(3));
+let sf1=kowinner("sf1",q1,q2),sf2=kowinner("sf2",q3,q4),champ=kowinner("final",sf1,sf2);
+el.innerHTML=`<div class="card"><h2>🏆 Slutspel</h2><div class="notice">4A–5B och 4B–5A är play-in. Gruppettorna ligger på varsin sida av trädet.</div></div>
+<div class="bracket">
+<div class="round"><h3>Play-in</h3>${koGame("pi1",a(4),b(5))}${koGame("pi2",b(4),a(5))}</div>
+<div class="round"><h3>Kvartsfinal</h3>${koGame("q1",a(1),pi2)}${koGame("q2",b(2),a(3))}${koGame("q3",b(1),pi1)}${koGame("q4",a(2),b(3))}</div>
+<div class="round"><h3>Semifinal</h3>${koGame("sf1",q1,q2)}${koGame("sf2",q3,q4)}</div>
+<div class="round"><h3>Final</h3>${koGame("final",sf1,sf2)}${champ!=="—"?`<div class="champ">🏆 ${champ}<br><span class="small">${esc(player(champ))}</span></div>`:""}</div>
+</div>`;
+}
+function render(){renderPlayers();renderGroup("A");renderGroup("B");renderKO();}
+render();
+</script>
+</body>
+</html>
